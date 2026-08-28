@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag, for example v0.4.0
+        required: true
+        type: string
+      prerelease:
+        description: Publish the GitHub Release and VSIX as a pre-release
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+      PRERELEASE: ${{ inputs.prerelease }}
+    steps:
+      - name: Validate release tag
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must have the form vMAJOR.MINOR.PATCH" >&2
+            exit 1
+          fi
+
+      - name: Check out release source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+          path: source
+          persist-credentials: false
+
+      - name: Check out release metadata
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: metadata
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+
+      - name: Verify version and release notes
+        working-directory: source
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          if [[ "v$PACKAGE_VERSION" != "$RELEASE_TAG" ]]; then
+            echo "package.json version $PACKAGE_VERSION does not match $RELEASE_TAG" >&2
+            exit 1
+          fi
+          test -f "../metadata/release-notes/$RELEASE_TAG.md"
+
+      - name: Install dependencies
+        working-directory: source
+        run: npm ci
+
+      - name: Test
+        working-directory: source
+        run: npm test
+
+      - name: Package VSIX
+        working-directory: source
+        run: |
+          if [[ "$PRERELEASE" == "true" ]]; then
+            npm run package:pre-release
+          else
+            npm run package
+          fi
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          RELEASE_ARGS=(
+            release create "$RELEASE_TAG"
+            "source/culsma-$VERSION.vsix"
+            --repo "$GITHUB_REPOSITORY"
+            --verify-tag
+            --title "Culsma Language Support $VERSION"
+            --notes-file "metadata/release-notes/$RELEASE_TAG.md"
+          )
+          if [[ "$PRERELEASE" == "true" ]]; then
+            RELEASE_ARGS+=(--prerelease)
+          fi
+          gh "${RELEASE_ARGS[@]}"

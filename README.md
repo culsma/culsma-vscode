@@ -2,6 +2,11 @@
   <img src="images/culsma-wordmark.png" alt="Culsma" width="720">
 </p>
 
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=culsma.culsma"><img src="https://img.shields.io/visual-studio-marketplace/v/culsma.culsma?label=VS%20Marketplace" alt="Visual Studio Marketplace"></a>
+  <a href="https://github.com/culsma/culsma-vscode/actions/workflows/ci.yml"><img src="https://github.com/culsma/culsma-vscode/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
+
 # Culsma Language Support
 
 VS Code language support for [Culsma](https://github.com/culsma/culsma), a
@@ -26,8 +31,11 @@ included.
 
 ## Installation
 
-Marketplace publication is pending. Until then, install a packaged `.vsix`
-from VS Code using **Extensions: Install from VSIX...**.
+Install [Culsma Language Support from the Visual Studio
+Marketplace](https://marketplace.visualstudio.com/items?itemName=culsma.culsma),
+or download a packaged `.vsix` from the
+[GitHub Releases](https://github.com/culsma/culsma-vscode/releases) page and use
+**Extensions: Install from VSIX...** in VS Code.
 
 ## Development
 

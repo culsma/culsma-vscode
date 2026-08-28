@@ -34,9 +34,13 @@ publisher ID.
 5. Confirm that the VSIX contains `LICENSE`, `THIRD_PARTY_NOTICES.md`, the
    Orbitron OFL text, the PNG icon and wordmark, and no source-control metadata,
    tests, publishing notes, or development dependencies.
-6. Push the reviewed commit and version tag to GitHub.
-7. In the publisher management page, add a new extension or update the existing
-   one by uploading the generated pre-release VSIX.
+6. Add reviewed notes at `release-notes/vX.Y.Z.md`, then push the reviewed
+   commit and version tag to GitHub.
+7. In GitHub Actions, run the **Release** workflow with the existing tag and the
+   intended pre-release setting. The workflow rebuilds from that tag, runs the
+   grammar tests, and creates the GitHub Release with its VSIX attachment.
+8. In the Marketplace publisher management page, add a new extension or update
+   the existing one by manually uploading the generated pre-release VSIX.
 
 VS Code extension versions must remain plain `major.minor.patch`; pre-release
 status is carried by the VSIX packaging/publishing flag, not a SemVer suffix.

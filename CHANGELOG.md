@@ -13,3 +13,5 @@
 - Include the Orbitron SIL Open Font License attribution used by the wordmark.
 - Add Marketplace metadata, support guidance, and a maintainer publishing
   checklist.
+- Add a manually approved GitHub Release workflow that rebuilds and verifies an
+  existing version tag without storing a publisher PAT.
