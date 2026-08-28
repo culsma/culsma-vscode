@@ -1,0 +1,188 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Culsma",
+  "scopeName": "source.culsma",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#special-forms"
+    },
+    {
+      "include": "#booleans"
+    },
+    {
+      "include": "#quantities"
+    },
+    {
+      "include": "#mutation"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#types-and-builtins"
+    },
+    {
+      "include": "#members"
+    },
+    {
+      "include": "#identifiers"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.culsma",
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.culsma"
+            }
+          },
+          "end": "$\n?"
+        },
+        {
+          "name": "comment.block.culsma",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.culsma"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.culsma"
+            }
+          }
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.culsma",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.culsma"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.culsma"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.culsma",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.culsma",
+          "match": "\\b(protocol|include|import|returns|let|repeat|in|if|else|break|continue|return|with|env|constraint|and|or)\\b"
+        }
+      ]
+    },
+    "special-forms": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.culsma",
+          "match": "\\b(series|group|markers)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "booleans": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.culsma",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "quantities": {
+      "patterns": [
+        {
+          "name": "constant.numeric.quantity.culsma",
+          "match": "(?<![A-Za-z0-9_])(?:\\d+(?:\\.\\d+)?(?:ng_per_uL|ug_per_mL|cells|day|sec|rpm|rcf|pct|min|mL|ml|uL|ul|mM|uM|nM|nm|mW|mV|mg|ug|kg|um|hr|Hz|xg|ms|L|g|s|h|C|K|M|W|V|X|%)(?![A-Za-z0-9_])|\\d+(?:\\.\\d+)?)"
+        }
+      ]
+    },
+    "mutation": {
+      "patterns": [
+        {
+          "name": "keyword.operator.mutation.culsma",
+          "match": "<<"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.comparison.culsma",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.assignment.culsma",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.arithmetic.culsma",
+          "match": "\\+|-|\\*|/"
+        }
+      ]
+    },
+    "types-and-builtins": {
+      "patterns": [
+        {
+          "name": "support.function.culsma",
+          "match": "\\b(container|tube|well|plate|chamber|surface|content|blood|reagent|buffer|stream|data_ref|data_group_ref|data_schema|sep|frac|img|ecp|phy|agit|schedule|hold)\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.program.culsma",
+          "match": "\\b(thermal_program|centrifuge_program|magnetic_program|disrupt_program|field_program|filtration_program|centrifugal_filtration_program|phase_partition_program|precipitation_program|density_gradient_program|chromatography_program)\\b(?=\\s*\\()"
+        },
+        {
+          "name": "constant.language.symbol.culsma",
+          "match": "\\b(single_cell|molecule|ion|positive|negative|neutral|charged|temperature|pressure|flow_rate|mass|volume|humidity|current|fluorescence|uv_absorbance|colorimetric|ph|conductivity|dissolved_oxygen|orp|customized)\\b"
+        }
+      ]
+    },
+    "members": {
+      "patterns": [
+        {
+          "name": "variable.other.member.culsma",
+          "match": "(?<=\\.)\\b(result|items|marker|mark|obs|records|sequence|signal|current_pulse|arrival_time|intensity|mz|schema_ref|subject_ref|context_ref|contents|structure|top|bottom|sidewall)\\b"
+        },
+        {
+          "name": "entity.name.function.member.culsma",
+          "match": "(?<=\\.)\\b(append|detects|partition)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.culsma",
+          "match": "\\b[A-Za-z][A-Za-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

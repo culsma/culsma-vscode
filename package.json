@@ -1,0 +1,78 @@
+{
+  "name": "culsma",
+  "displayName": "Culsma Language Support",
+  "description": "Syntax highlighting and language configuration for Culsma source files.",
+  "version": "0.4.0",
+  "publisher": "culsma",
+  "license": "Apache-2.0",
+  "icon": "images/culsma-logo.png",
+  "preview": true,
+  "pricing": "Free",
+  "galleryBanner": {
+    "color": "#102D5C",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/culsma/culsma-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/culsma/culsma-vscode/issues"
+  },
+  "homepage": "https://github.com/culsma/culsma-vscode#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "culsma",
+    "laboratory",
+    "protocol",
+    "dsl",
+    "syntax highlighting"
+  ],
+  "scripts": {
+    "test": "node scripts/test-grammar.mjs",
+    "package": "vsce package",
+    "package:pre-release": "vsce package --pre-release",
+    "list-package": "vsce ls"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "3.9.2",
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "9.3.2"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "culsma",
+        "aliases": [
+          "Culsma",
+          "culsma"
+        ],
+        "extensions": [
+          ".culs",
+          ".lw"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "culsma",
+        "scopeName": "source.culsma",
+        "path": "./syntaxes/culsma.tmLanguage.json"
+      }
+    ]
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": true
+    }
+  }
+}

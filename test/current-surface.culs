@@ -1,0 +1,14 @@
+import core;
+
+protocol PlateAssay() returns (output) {
+  let assay = plate(label = "Assay", format = "96well", carrier_id = "PlateA");
+  let source = tube(load = [content(kind = bio_cellular, type = cell_line):500cells]);
+  let target = tube(label = "Target");
+  let spin = centrifuge_program(drive = 12000g);
+  let voltage = field_program(field = 25mV, duration = 1day);
+  target << [source.partition(spin)[0]];
+  with env(thermal = 25C, duration = 1day) {
+    hold(sample = target) with constraint(gentle);
+  }
+  return output = target;
+}
