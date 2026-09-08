@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.4.1
 
 - Highlight named arguments and record-property keys according to their syntax
   roles, including the canonical `kind`, `type`, and `role` classification
   fields and their unquoted symbol values.
+- Publish the extension on the regular stable channel.
 
 ## 0.4.0
 

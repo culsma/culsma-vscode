@@ -2,11 +2,10 @@
   "name": "culsma",
   "displayName": "Culsma Language Support",
   "description": "Syntax highlighting and language configuration for Culsma source files.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "culsma",
   "license": "Apache-2.0",
   "icon": "images/culsma-logo.png",
-  "preview": true,
   "pricing": "Free",
   "galleryBanner": {
     "color": "#102D5C",
@@ -43,6 +42,9 @@
     "@vscode/vsce": "3.9.2",
     "vscode-oniguruma": "2.0.1",
     "vscode-textmate": "9.3.2"
+  },
+  "overrides": {
+    "qs": "6.16.0"
   },
   "contributes": {
     "languages": [
