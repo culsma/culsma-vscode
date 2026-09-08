@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Highlight named arguments and record-property keys according to their syntax
+  roles, including the canonical `kind`, `type`, and `role` classification
+  fields and their unquoted symbol values.
+
 ## 0.4.0
 
 - Establish the standalone Culsma VS Code extension repository.

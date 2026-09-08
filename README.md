@@ -18,6 +18,8 @@ domain-specific language for executable laboratory protocols.
 - Transitional file association for legacy `.lw` files
 - Line and block comments, strings, booleans, quantities, and operators
 - Current language keywords and reserved call forms
+- Named arguments, record-property keys, and canonical content-classification
+  symbols
 - Container and content constructors, including `plate(...)`
 - Program constructors and core operations
 - Container views and method calls such as `.contents`, `.structure.top`, and

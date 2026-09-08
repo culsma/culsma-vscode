@@ -22,6 +22,9 @@
       "include": "#quantities"
     },
     {
+      "include": "#structured-fields"
+    },
+    {
       "include": "#mutation"
     },
     {
@@ -121,6 +124,54 @@
         {
           "name": "constant.numeric.quantity.culsma",
           "match": "(?<![A-Za-z0-9_])(?:\\d+(?:\\.\\d+)?(?:ng_per_uL|ug_per_mL|cells|day|sec|rpm|rcf|pct|min|mL|ml|uL|ul|mM|uM|nM|nm|mW|mV|mg|ug|kg|um|hr|Hz|xg|ms|L|g|s|h|C|K|M|W|V|X|%)(?![A-Za-z0-9_])|\\d+(?:\\.\\d+)?)"
+        }
+      ]
+    },
+    "structured-fields": {
+      "patterns": [
+        {
+          "captures": {
+            "2": {
+              "name": "variable.parameter.culsma"
+            },
+            "3": {
+              "name": "keyword.operator.assignment.culsma"
+            },
+            "4": {
+              "name": "constant.language.symbol.culsma"
+            }
+          },
+          "match": "(^\\s*|[,(]\\s*)(kind|type)(\\s*=\\s*)([A-Za-z][A-Za-z0-9_]*)(?=\\s*(?:[,)]|$))"
+        },
+        {
+          "captures": {
+            "2": {
+              "name": "variable.other.property.culsma"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.culsma"
+            },
+            "4": {
+              "name": "constant.language.symbol.culsma"
+            }
+          },
+          "match": "(^\\s*|[,{]\\s*)(role)(\\s*:\\s*)([A-Za-z][A-Za-z0-9_]*)(?=\\s*(?:[,}]|$))"
+        },
+        {
+          "captures": {
+            "2": {
+              "name": "variable.parameter.culsma"
+            }
+          },
+          "match": "(^\\s*|[,(]\\s*)([A-Za-z][A-Za-z0-9_]*)(?=\\s*=)"
+        },
+        {
+          "captures": {
+            "2": {
+              "name": "variable.other.property.culsma"
+            }
+          },
+          "match": "(^\\s*|[,{]\\s*)([A-Za-z][A-Za-z0-9_]*)(?=\\s*:)"
         }
       ]
     },

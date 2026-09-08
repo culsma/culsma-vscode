@@ -2,7 +2,7 @@ import core;
 
 protocol PlateAssay() returns (output) {
   let assay = plate(label = "Assay", format = "96well", carrier_id = "PlateA");
-  let source = tube(load = [content(kind = bio_cellular, type = cell_line):500cells]);
+  let source = tube(load = [content(kind = formulation, type = medium, code = "DMEM_F12_COMPLETE", attrs = { role: culture }):4mL]);
   let target = tube(label = "Target");
   let spin = centrifuge_program(drive = 12000g);
   let voltage = field_program(field = 25mV, duration = 1day);
