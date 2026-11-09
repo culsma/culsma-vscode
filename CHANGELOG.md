@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.2 — 2026-11-09
+
+- Highlight typed enums, material selectors and replacement, current contents
+  volume, and named tail returns from the recent Culsma releases.
+- Recognize electrical current and motion frequency unit suffixes.
+- Align with Culsma 1.0.10 concentration declarations, concentration
+  reads, mass concentration literals, and `print`.
+- Cover scoped `with sep(...)` and `with frac(...)` blocks and environment
+  oxygen arguments with regression tests.
+
 ## 0.4.1
 
 - Highlight named arguments and record-property keys according to their syntax

@@ -55,7 +55,10 @@ Marketplace upload checklist.
 
 ## Compatibility
 
-The extension follows the current public Culsma source surface. `.culs` is the
+Version 0.4.2 aligns highlighting with Culsma 1.0.10, including typed
+agitation modes, material selectors, contents volume, and named tail returns.
+It also highlights concentration declarations and reads, `print`, and scoped
+`with sep(...)` / `with frac(...)` blocks. `.culs` is the
 canonical file extension; `.lw` remains associated during the LabWord-to-Culsma
 transition.
 

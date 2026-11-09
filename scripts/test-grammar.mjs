@@ -59,18 +59,21 @@ for (const line of fixtureLines) {
 }
 
 function scopesFor(needle, occurrence = 0) {
+  const identifier = /^[A-Za-z][A-Za-z0-9_]*$/.test(needle);
   let seen = 0;
   for (const { line, tokens } of tokenized) {
     let from = 0;
     while (true) {
       const index = line.indexOf(needle, from);
       if (index < 0) break;
+      from = index + needle.length;
+      if (identifier && (/[A-Za-z0-9_]/.test(line[index - 1] ?? "") ||
+                         /[A-Za-z0-9_]/.test(line[from] ?? ""))) continue;
       if (seen++ === occurrence) {
         const token = tokens.find((candidate) => candidate.startIndex <= index && candidate.endIndex >= index + needle.length);
         assert.ok(token, `No token covers ${needle}`);
         return token.scopes;
       }
-      from = index + needle.length;
     }
   }
   assert.fail(`Fixture does not contain ${needle}`);
@@ -94,10 +97,49 @@ const expectations = [
   ["partition", "entity.name.function.member.culsma"],
   ["<<", "keyword.operator.mutation.culsma"],
   ["1day", "constant.numeric.quantity.culsma"],
-  ["constraint", "keyword.control.culsma"]
+  ["constraint", "keyword.control.culsma"],
+  ["ContentKind", "support.type.enum.culsma"],
+  ["BIO_MOLECULE_OR_VIRUS", "constant.language.symbol.culsma"],
+  ["TAP", "constant.language.symbol.culsma"],
+  ["CENTRIFUGE", "constant.language.symbol.culsma"],
+  ["ShakeMotion", "support.type.enum.culsma"],
+  ["ROCK", "constant.language.symbol.culsma"],
+  ["30cycle/min", "constant.numeric.quantity.culsma"],
+  ["200mA", "constant.numeric.quantity.culsma"],
+  ["25uA", "constant.numeric.quantity.culsma"],
+  ["1A", "constant.numeric.quantity.culsma"],
+  ["0.005mg_per_uL", "constant.numeric.quantity.culsma"],
+  ["volume", "variable.other.member.culsma"],
+  ["materials", "variable.other.member.culsma"],
+  ["get", "entity.name.function.member.culsma"],
+  ["replace", "entity.name.function.member.culsma"],
+  ["unknown", "support.function.culsma"],
+  ["concentration", "variable.parameter.culsma"],
+  ["concentration", "variable.other.member.culsma", 1],
+  ["print", "support.function.builtin.culsma"],
+  ["o2", "variable.parameter.culsma"],
+  ["dose_target", "variable.parameter.culsma"],
+  ["sep", "support.function.culsma"],
+  ["frac", "support.function.culsma"],
+  ["10ng_per_uL", "constant.numeric.quantity.culsma"],
+  ["25ug_per_mL", "constant.numeric.quantity.culsma"],
+  ["result_bundle", "variable.parameter.culsma"]
 ];
-for (const [text, expectedScope] of expectations) {
-  assert.ok(scopesFor(text).includes(expectedScope), `${text} is missing ${expectedScope}`);
+for (const [text, expectedScope, occurrence] of expectations) {
+  assert.ok(scopesFor(text, occurrence).includes(expectedScope), `${text} is missing ${expectedScope}`);
 }
 
-console.log(`Validated ${expectations.length} Culsma TextMate scopes.`);
+// New syntax must not turn comments, strings, or longer names into builtins.
+for (const line of ['// print(10ng_per_uL) ContentKind.CHEMICAL', '"print(10ng_per_uL) ContentKind.CHEMICAL"']) {
+  const result = loadedGrammar.tokenizeLine(line, null);
+  assert.ok(result.tokens.every(({ scopes }) => !scopes.some((scope) =>
+    scope.startsWith('support.') || scope === 'constant.numeric.quantity.culsma')));
+}
+for (const line of ['printable(x)', 'sprint(x)', '10ng_per_uL_suffix']) {
+  const result = loadedGrammar.tokenizeLine(line, null);
+  assert.ok(!result.tokens.some(({ startIndex, endIndex, scopes }) =>
+    scopes.includes('support.function.builtin.culsma') ||
+    (scopes.includes('constant.numeric.quantity.culsma') && /[A-Za-z]/.test(line.slice(startIndex, endIndex)))));
+}
+
+console.log(`Validated ${expectations.length} Culsma TextMate scopes and lexical isolation checks.`);

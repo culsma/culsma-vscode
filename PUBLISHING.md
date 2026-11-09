@@ -14,7 +14,7 @@
 The GitHub organization name does not reserve a Visual Studio Marketplace
 publisher ID.
 
-## Pre-release checklist
+## Release checklist
 
 1. Confirm that `package.json`, `CHANGELOG.md`, and the intended Git tag use the
    same `major.minor.patch` version.
@@ -26,7 +26,7 @@ publisher ID.
    npm ci
    npm test
    npm run list-package
-   npm run package:pre-release
+   npm run package
    ```
 
 4. Install the generated VSIX in VS Code and visually inspect representative
@@ -37,10 +37,14 @@ publisher ID.
 6. Add reviewed notes at `release-notes/vX.Y.Z.md`, then push the reviewed
    commit and version tag to GitHub.
 7. In GitHub Actions, run the **Release** workflow with the existing tag and the
-   intended pre-release setting. The workflow rebuilds from that tag, runs the
+   intended pre-release setting (`false` for stable releases). The workflow rebuilds from that tag, runs the
    grammar tests, and creates the GitHub Release with its VSIX attachment.
 8. In the Marketplace publisher management page, add a new extension or update
-   the existing one by manually uploading the generated pre-release VSIX.
+   the existing one by manually uploading the generated VSIX.
+
+For an intentional preview, use `npm run package:pre-release` instead. If a
+GitHub Release was created manually with the verified local VSIX, do not run
+the creation workflow again for that tag.
 
 VS Code extension versions must remain plain `major.minor.patch`; pre-release
 status is carried by the VSIX packaging/publishing flag, not a SemVer suffix.
@@ -48,7 +52,7 @@ status is carried by the VSIX packaging/publishing flag, not a SemVer suffix.
 ## Post-upload checks
 
 1. Confirm that the Marketplace page shows the Culsma icon, wordmark, repository,
-   issue tracker, Apache-2.0 license, changelog, and Preview label.
+   issue tracker, Apache-2.0 license, changelog, and intended stable/preview channel.
 2. Install the Marketplace build into a clean VS Code profile.
 3. Confirm `.culs` language detection and representative highlighting for
    `plate(...)`, quantity units, comments, strings, mutation, container views,

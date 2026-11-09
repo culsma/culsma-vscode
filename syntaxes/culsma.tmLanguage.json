@@ -31,10 +31,13 @@
       "include": "#operators"
     },
     {
-      "include": "#types-and-builtins"
+      "include": "#enum-members"
     },
     {
       "include": "#members"
+    },
+    {
+      "include": "#types-and-builtins"
     },
     {
       "include": "#identifiers"
@@ -98,6 +101,17 @@
     "keywords": {
       "patterns": [
         {
+          "match": "\\b(return)\\s+([A-Za-z][A-Za-z0-9_]*)(?=\\s*=(?!=))",
+          "captures": {
+            "1": {
+              "name": "keyword.control.culsma"
+            },
+            "2": {
+              "name": "variable.parameter.culsma"
+            }
+          }
+        },
+        {
           "name": "keyword.control.culsma",
           "match": "\\b(protocol|include|import|returns|let|repeat|in|if|else|break|continue|return|with|env|constraint|and|or)\\b"
         }
@@ -108,6 +122,10 @@
         {
           "name": "support.function.builtin.culsma",
           "match": "\\b(series|group|markers)\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.builtin.culsma",
+          "match": "(?<!\\.)\\bprint\\b(?=\\s*\\()"
         }
       ]
     },
@@ -123,7 +141,7 @@
       "patterns": [
         {
           "name": "constant.numeric.quantity.culsma",
-          "match": "(?<![A-Za-z0-9_])(?:\\d+(?:\\.\\d+)?(?:ng_per_uL|ug_per_mL|cells|day|sec|rpm|rcf|pct|min|mL|ml|uL|ul|mM|uM|nM|nm|mW|mV|mg|ug|kg|um|hr|Hz|xg|ms|L|g|s|h|C|K|M|W|V|X|%)(?![A-Za-z0-9_])|\\d+(?:\\.\\d+)?)"
+          "match": "(?<![A-Za-z0-9_])(?:\\d+(?:\\.\\d+)?(?:cycle/min|mg_per_uL|ng_per_uL|ug_per_mL|cells|day|sec|rpm|rcf|pct|min|mL|ml|uL|ul|mM|uM|nM|mA|uA|nm|mW|mV|mg|ug|kg|um|hr|Hz|xg|ms|L|g|s|h|C|K|M|W|V|A|X|%)(?![A-Za-z0-9_])|\\d+(?:\\.\\d+)?)"
         }
       ]
     },
@@ -163,7 +181,7 @@
               "name": "variable.parameter.culsma"
             }
           },
-          "match": "(^\\s*|[,(]\\s*)([A-Za-z][A-Za-z0-9_]*)(?=\\s*=)"
+          "match": "(^\\s*|[,(]\\s*)([A-Za-z][A-Za-z0-9_]*)(?=\\s*=(?!=))"
         },
         {
           "captures": {
@@ -203,7 +221,7 @@
       "patterns": [
         {
           "name": "support.function.culsma",
-          "match": "\\b(container|tube|well|plate|chamber|surface|content|blood|reagent|buffer|stream|data_ref|data_group_ref|data_schema|sep|frac|img|ecp|phy|agit|schedule|hold)\\b(?=\\s*\\()"
+          "match": "\\b(container|tube|well|plate|chamber|surface|content|blood|reagent|buffer|stream|data_ref|data_group_ref|data_schema|sep|frac|img|ecp|phy|agit|schedule|hold|transition|unknown)\\b(?=\\s*\\()"
         },
         {
           "name": "support.function.program.culsma",
@@ -219,11 +237,11 @@
       "patterns": [
         {
           "name": "variable.other.member.culsma",
-          "match": "(?<=\\.)\\b(result|items|marker|mark|obs|records|sequence|signal|current_pulse|arrival_time|intensity|mz|schema_ref|subject_ref|context_ref|contents|structure|top|bottom|sidewall)\\b"
+          "match": "(?<=\\.)\\b(result|items|marker|mark|obs|records|sequence|signal|current_pulse|arrival_time|intensity|mz|schema_ref|subject_ref|context_ref|contents|volume|materials|concentration|structure|top|bottom|sidewall)\\b"
         },
         {
           "name": "entity.name.function.member.culsma",
-          "match": "(?<=\\.)\\b(append|detects|partition)\\b(?=\\s*\\()"
+          "match": "(?<=\\.)\\b(append|detects|partition|get|replace)\\b(?=\\s*\\()"
         }
       ]
     },
@@ -232,6 +250,21 @@
         {
           "name": "variable.other.culsma",
           "match": "\\b[A-Za-z][A-Za-z0-9_]*\\b"
+        }
+      ]
+    },
+    "enum-members": {
+      "patterns": [
+        {
+          "match": "\\b(AgitationMode|BeadProperty|CentrifugalFiltrationProgramOutput|CentrifugeProgramOutput|ChromatographyAxis|ChromatographyOrder|ConstraintRequirement|ContainerKind|ContentKind|ContentRole|ContentState|ContentType|DataKind|DensityGradientAxis|DensityGradientOrder|DisruptProgramOutput|DisruptionMethod|FieldProgramOutput|FiltrationDrive|FiltrationProgramOutput|MagneticProgramOutput|MaterialRelation|ObservationUnit|PhasePartitionProgramOutput|PlateFormat|PrecipitationProgramOutput|ReadoutQuantity|ScheduleMode|SepProgramOutput|ShakeMotion)\\s*\\.\\s*([A-Z][A-Z0-9_]*)\\b",
+          "captures": {
+            "1": {
+              "name": "support.type.enum.culsma"
+            },
+            "2": {
+              "name": "constant.language.symbol.culsma"
+            }
+          }
         }
       ]
     }

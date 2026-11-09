@@ -12,3 +12,49 @@ protocol PlateAssay() returns (output) {
   }
   return output = target;
 }
+
+protocol RecentSurface {
+  let stock = tube(load = [
+    content(kind = ContentKind.BIO_MOLECULE_OR_VIRUS, type = ContentType.PROTEIN,
+            code = "AB", concentration = 0.005mg_per_uL):20uL
+  ]);
+  let assay = plate(format = "96well");
+  agit(sample = assay, mode = AgitationMode.TAP);
+  agit(sample = stock, mode = AgitationMode.SHAKE, motion = ShakeMotion.ROCK,
+       rate = 30cycle/min, duration = 1min);
+  agit(sample = stock, mode = AgitationMode.CENTRIFUGE, drive = 2000g, duration = 30s);
+  let electrical = field_program(current = 200mA, duration = 1min);
+  let other_current = 25uA;
+  let base_current = 1A;
+  let available = stock.contents.volume;
+  let antibody = stock.materials.get("AB");
+  let dose_volume = 10ug / antibody.concentration;
+  print(dose_volume);
+  let dose_tube = tube();
+  dose_tube << [stock:dose_volume];
+  with env(thermal = 37C, co2 = 5%, o2 = 20%, rh = 90%, duration = 1min) {
+    hold(dose_tube);
+  }
+  return dose_target = dose_tube;
+}
+
+protocol Replacement(sample) {
+  sample.materials.replace({
+    sample.materials[0]: content(kind = ContentKind.CHEMICAL,
+                                type = ContentType.ORGANIC_COMPOUND,
+                                code = "PRODUCT"):unknown(dimension = mass)
+  });
+}
+
+protocol ScopedOperations(sample, separation_program, fractionation_program) {
+  let collected = tube();
+  with sep(sample = sample, program = separation_program) {
+    collected << [sample.contents[0]:10uL];
+  }
+  with frac(sample = sample, program = fractionation_program) {
+    collected << [sample.contents[1]:10uL];
+  }
+  let low_concentration = 10ng_per_uL;
+  let bulk_concentration = 25ug_per_mL;
+  return result_bundle = { tube: collected, nested: [sample] };
+}
